@@ -1,57 +1,55 @@
 'use client';
-import { useState } from 'react';
-import TodoItem from './TodoItem';
-import { Todo } from './types';
 
-export default function TodoPage() {
-  const [input, setInput] = useState('');
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, text: 'サンプルタスク', completed: false },
-  ]);
+import { useEffect, useState } from 'react';
+import { fetchTodos } from '../lib/fetchTodos';
+import TodoForm from '../TodoForm';
 
-  const handleAdd = () => {
-    if (!input.trim()) return;
-    setTodos(prev => [
-      ...prev,
-      { id: Date.now(), text: input.trim(), completed: false },
-    ]);
-    setInput('');
+export default function TodoAppPage() {
+  const [todos, setTodos] = useState<any[]>([]);
+
+  // 初回マウント時に既存 TODO を取得
+  useEffect(() => {
+    const load = async () => {
+      const data = await fetchTodos();
+      setTodos(data);
+    };
+    load();
+  }, []);
+
+  // TodoForm から呼ばれる
+  const handleAdd = (todo: any) => {
+    setTodos((prev) => [todo, ...prev]);
   };
 
-  // ★ 完了トグル
-  const toggleTodo = (id: number) =>
-    setTodos(prev =>
-      prev.map(t =>
-        t.id === id ? { ...t, completed: !t.completed } : t
-      )
-    );
-
   return (
-    <main className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">TODO アプリ</h1>
+    <main className="max-w-2xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6">TODO リスト</h1>
 
-      <div className="flex gap-2 mb-4">
-        <input
-          data-testid="todo-input"
-          className="border p-2 flex-1"
-          placeholder="やることを入力"
-          value={input}
-          onChange={e => setInput(e.target.value)}
-        />
-        <button
-          data-testid="add-btn"
-          className="bg-blue-500 text-white px-4"
-          onClick={handleAdd}
-        >
-          追加
-        </button>
+      <TodoForm onAdd={handleAdd} />
+
+      <div className="space-y-2">
+        {todos.length === 0 ? (
+          <div className="text-gray-500 text-center py-8">
+            TODOがありません。上の入力欄から追加してみましょう！
+          </div>
+        ) : (
+          todos.map((todo) => (
+            <div key={todo.id} className="p-3 bg-white border rounded-lg shadow-sm">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={todo.is_complete}
+                  readOnly
+                  className="w-4 h-4 text-blue-600 rounded"
+                />
+                <span className={todo.is_complete ? 'line-through text-gray-500' : 'text-gray-800'}>
+                  {todo.title}
+                </span>
+              </div>
+            </div>
+          ))
+        )}
       </div>
-
-      <ul className="space-y-2">
-        {todos.map(t => (
-          <TodoItem key={t.id} todo={t} onToggle={toggleTodo} />
-        ))}
-      </ul>
     </main>
   );
 }
