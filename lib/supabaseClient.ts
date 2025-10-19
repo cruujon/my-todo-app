@@ -10,4 +10,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
 console.log('🔧 Supabase URL:', supabaseUrl)
 console.log('🔧 Supabase Key:', supabaseAnonKey ? '設定済み' : '未設定')
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    // 現在のURLをリダイレクトURLとして設定
+    redirectTo: typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3002',
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+})

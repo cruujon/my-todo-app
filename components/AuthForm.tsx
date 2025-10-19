@@ -22,6 +22,9 @@ export default function AuthForm() {
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: window.location.origin
+        }
       });
 
       console.log('📝 サインアップ結果:', { signUpData, signUpError });
@@ -44,11 +47,11 @@ export default function AuthForm() {
             console.log('👤 サインイン後のユーザー:', signInData.user);
             console.log('📋 サインイン後のセッション:', signInData.session);
             
-            // 少し待ってからページリロード（セッションが確立されるまで）
+            // 認証状態の変更を待ってからページリロード
             setTimeout(() => {
               console.log('🔄 ページリロード実行');
-              location.reload();
-            }, 1000);
+              window.location.href = window.location.origin;
+            }, 1500);
           }
       } else {
         console.log('✅ サインアップ成功');
@@ -58,11 +61,11 @@ export default function AuthForm() {
         // サインアップ成功時もログイン状態にする
         alert('登録成功！');
         
-        // 少し待ってからページリロード
+        // 認証状態の変更を待ってからページリロード
         setTimeout(() => {
           console.log('🔄 ページリロード実行');
-          location.reload();
-        }, 1000);
+          window.location.href = window.location.origin;
+        }, 1500);
       }
     } catch (error) {
       console.error('💥 予期しないエラー:', error);
