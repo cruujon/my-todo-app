@@ -15,6 +15,7 @@ export default function AuthForm() {
     setErrorMsg('');
 
     console.log('🔍 認証開始:', { email, password });
+    console.log('🔧 Supabase クライアント:', supabase);
 
     try {
       // 1. signUp を試す
