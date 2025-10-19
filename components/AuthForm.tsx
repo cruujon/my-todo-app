@@ -2,10 +2,8 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { useRouter } from 'next/navigation';
 
 export default function AuthForm() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -31,7 +29,7 @@ export default function AuthForm() {
       if (signInError) {
         setErrorMsg(signInError.message);
       } else {
-        router.refresh(); // ページをリロードしてログイン状態に
+        location.reload(); // ページをリロードしてログイン状態に
       }
     } else {
       alert('登録成功！確認メールをチェックしてください。');
