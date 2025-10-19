@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { updateTodo } from '@/lib/updateTodo';
 import { deleteTodo } from '@/lib/deleteTodo';
 import type { Todo, TodoItemProps } from '@/types';
@@ -14,23 +14,11 @@ export default function TodoItem({ todo, onRefresh }: TodoItemProps) {
     if (!title.trim()) return;
     setLoading(true);
     try {
-      await updateTodo(todo.id, title.trim(), todo.is_complete);
+      await updateTodo(todo.id, title.trim());
       setEditing(false);
       onRefresh();
     } catch (error) {
       console.error('更新エラー:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleToggleComplete = async () => {
-    setLoading(true);
-    try {
-      await updateTodo(todo.id, todo.title, !todo.is_complete);
-      onRefresh();
-    } catch (error) {
-      console.error('完了状態更新エラー:', error);
     } finally {
       setLoading(false);
     }
@@ -55,9 +43,8 @@ export default function TodoItem({ todo, onRefresh }: TodoItemProps) {
         <input
           type="checkbox"
           checked={todo.is_complete}
-          onChange={handleToggleComplete}
-          disabled={loading}
-          className="w-4 h-4 text-blue-600 rounded cursor-pointer"
+          readOnly
+          className="w-4 h-4 text-blue-600 rounded"
         />
         
         {editing ? (
