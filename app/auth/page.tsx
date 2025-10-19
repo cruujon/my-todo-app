@@ -51,7 +51,7 @@ export default function AuthPage() {
           </div>
 
           {user ? (
-            <UserMenu user={user} />
+            <UserMenu userEmail={user.email} />
           ) : (
             <AuthForm />
           )}
