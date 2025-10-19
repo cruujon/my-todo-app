@@ -1,20 +1,19 @@
 'use client';
 
 import { supabase } from '@/lib/supabaseClient';
-import { useRouter } from 'next/navigation';
 
-export default function UserMenu({ userEmail }: { userEmail: string }) {
-  const router = useRouter();
-
+export default function UserMenu({ userEmail }) {
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.refresh(); // 状態をリセット
+    location.reload(); // 状態を即反映
   };
 
   return (
-    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+    <div style={{ marginBottom: '1rem' }}>
       <span>{userEmail}</span>
-      <button onClick={handleLogout}>ログアウト</button>
+      <button onClick={handleLogout} style={{ marginLeft: '0.5rem' }}>
+        ログアウト
+      </button>
     </div>
   );
 }
