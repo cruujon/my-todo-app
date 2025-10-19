@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TODO App
 
-## Getting Started
+Next.js 15 + Supabase を使用したモダンなTODOアプリケーションです。
 
-First, run the development server:
+## 🚀 技術スタック
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Frontend**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Database**: Supabase
+- **Styling**: Tailwind CSS
+- **Deployment**: Vercel
+
+## 📁 プロジェクト構造
+
+```
+my-todo-app/
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # ルートレイアウト
+│   ├── page.tsx           # メインページ
+│   └── globals.css        # グローバルスタイル
+├── components/            # Reactコンポーネント
+│   ├── TodoForm.tsx       # TODO追加フォーム
+│   ├── TodoList.tsx       # TODO一覧表示
+│   └── TodoItem.tsx       # 個別TODOアイテム
+├── lib/                   # ユーティリティ関数
+│   ├── supabaseClient.ts  # Supabaseクライアント
+│   ├── fetchTodos.ts      # TODO取得
+│   ├── insertTodo.ts      # TODO追加
+│   ├── updateTodo.ts      # TODO更新
+│   └── deleteTodo.ts      # TODO削除
+├── types/                 # TypeScript型定義
+│   └── index.ts           # 共通型定義
+└── public/                # 静的ファイル
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ セットアップ
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **依存関係のインストール**
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **環境変数の設定**
+   `.env.local` ファイルを作成し、Supabaseの認証情報を設定：
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-## Learn More
+3. **開発サーバーの起動**
+   ```bash
+   npm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **ブラウザで確認**
+   http://localhost:3000 にアクセス
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ 機能
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- ✅ TODOアイテムの追加
+- ✅ TODOアイテムの一覧表示
+- ✅ TODOアイテムの編集
+- ✅ TODOアイテムの削除
+- ✅ リアルタイム更新
+- ✅ レスポンシブデザイン
 
-## Deploy on Vercel
+## 🎯 主な特徴
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **TypeScript**: 型安全性の確保
+- **モダンな構造**: Next.js 15 App Router
+- **コンポーネント分離**: 再利用可能な設計
+- **エラーハンドリング**: 適切なエラー処理
+- **ユーザビリティ**: 直感的なUI/UX
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 デプロイ
+
+Vercelでのデプロイに対応：
+
+```bash
+vercel --prod
+```
+
+## 🤝 コントリビューション
+
+1. このリポジトリをフォーク
+2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成
+
+## 📄 ライセンス
+
+MIT License

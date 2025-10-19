@@ -1,6 +1,7 @@
 import { supabase } from './supabaseClient';
+import type { Todo } from '@/types';
 
-export const fetchTodos = async () => {
+export const fetchTodos = async (): Promise<Todo[]> => {
   const { data, error } = await supabase
     .from('todos')
     .select('*')

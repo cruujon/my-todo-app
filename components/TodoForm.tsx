@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { insertTodo } from './lib/insertTodo';
+import React, { useState } from 'react';
+import { insertTodo } from '@/lib/insertTodo';
+import type { Todo, TodoFormProps } from '@/types';
 
-export default function TodoForm() {
+export default function TodoForm({ onAdd }: TodoFormProps = {}) {
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = title.trim();
     if (!trimmed) return;
@@ -21,9 +22,13 @@ export default function TodoForm() {
       
       if (newTodo) {
         if (onAdd) {
-          onAdd(newTodo);  // 親コンポーネントの状態を更新
+          onAdd(newTodo);
         }
         setTitle('');    // フォームをクリア
+        // onAddが提供されていない場合はページをリロード
+        if (!onAdd) {
+          window.location.reload();
+        }
       } else {
         setError('TODOの追加に失敗しました');
       }

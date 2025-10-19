@@ -1,16 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { fetchTodos } from './lib/fetchTodos';
+import React, { useEffect, useState } from 'react';
+import { fetchTodos } from '@/lib/fetchTodos';
 import TodoItem from './TodoItem';
+import type { Todo, TodoListProps } from '@/types';
 
 /**
  * 一覧取得と再取得ロジックをカプセル化
  */
 export default function TodoList() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const loadTodos = async () => {
     try {

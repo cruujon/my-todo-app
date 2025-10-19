@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { updateTodo } from './lib/updateTodo';
-import { deleteTodo } from './lib/deleteTodo';
+import React, { useState } from 'react';
+import { updateTodo } from '@/lib/updateTodo';
+import { deleteTodo } from '@/lib/deleteTodo';
+import type { Todo, TodoItemProps } from '@/types';
 
-export default function TodoItem({ todo, onRefresh }) {
+export default function TodoItem({ todo, onRefresh }: TodoItemProps) {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [loading, setLoading] = useState(false);
