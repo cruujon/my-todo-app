@@ -39,15 +39,30 @@ export default function AuthForm() {
         if (signInError) {
           console.error('❌ サインインエラー:', signInError);
           setErrorMsg(signInError.message);
-        } else {
-          console.log('✅ サインイン成功、ページリロード');
-          location.reload(); // ページをリロードしてログイン状態に
-        }
+          } else {
+            console.log('✅ サインイン成功');
+            console.log('👤 サインイン後のユーザー:', signInData.user);
+            console.log('📋 サインイン後のセッション:', signInData.session);
+            
+            // 少し待ってからページリロード（セッションが確立されるまで）
+            setTimeout(() => {
+              console.log('🔄 ページリロード実行');
+              location.reload();
+            }, 1000);
+          }
       } else {
         console.log('✅ サインアップ成功');
+        console.log('👤 サインアップ後のユーザー:', signUpData.user);
+        console.log('📋 サインアップ後のセッション:', signUpData.session);
+        
         // サインアップ成功時もログイン状態にする
         alert('登録成功！');
-        location.reload();
+        
+        // 少し待ってからページリロード
+        setTimeout(() => {
+          console.log('🔄 ページリロード実行');
+          location.reload();
+        }, 1000);
       }
     } catch (error) {
       console.error('💥 予期しないエラー:', error);
