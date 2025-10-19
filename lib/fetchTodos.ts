@@ -1,24 +1,20 @@
-import { supabase } from './supabaseClient';
-import type { Todo } from '@/types';
+import { supabase } from '@/lib/supabaseClient';
 
-export const fetchTodos = async (): Promise<Todo[]> => {
-  // ログイン中のユーザーを取得
+export const fetchTodos = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    throw new Error('ログインしていません');
-  }
+  if (!user) return [];
 
   const { data, error } = await supabase
     .from('todos')
     .select('*')
-    .eq('user_id', user.id) // ユーザー固有のTODOのみ取得
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('データの取得に失敗しました:', error.message);
+    console.error('TODO 取得失敗:', error.message);
     return [];
   }
 
