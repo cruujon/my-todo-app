@@ -58,14 +58,39 @@ export default function AuthForm() {
         console.log('👤 サインアップ後のユーザー:', signUpData.user);
         console.log('📋 サインアップ後のセッション:', signUpData.session);
         
-        // サインアップ成功時もログイン状態にする
-        alert('登録成功！');
-        
-        // 認証状態の変更を待ってからページリロード
-        setTimeout(() => {
-          console.log('🔄 ページリロード実行');
-          window.location.href = window.location.origin;
-        }, 1500);
+        // サインアップ成功後、自動的にサインインを実行してセッションを確立
+        if (signUpData.user && !signUpData.session) {
+          console.log('🔄 サインアップ後、自動サインインを実行');
+          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+          
+          console.log('🔑 自動サインイン結果:', { signInData, signInError });
+          
+          if (signInError) {
+            console.error('❌ 自動サインインエラー:', signInError);
+            setErrorMsg('登録は成功しましたが、自動ログインに失敗しました: ' + signInError.message);
+          } else {
+            console.log('✅ 自動サインイン成功');
+            console.log('👤 自動サインイン後のユーザー:', signInData.user);
+            console.log('📋 自動サインイン後のセッション:', signInData.session);
+            alert('登録成功！自動でログインしました。');
+            
+            // 認証状態の変更を待ってからページリロード
+            setTimeout(() => {
+              console.log('🔄 ページリロード実行');
+              window.location.href = window.location.origin;
+            }, 1500);
+          }
+        } else {
+          // セッションが既に存在する場合
+          alert('登録成功！');
+          setTimeout(() => {
+            console.log('🔄 ページリロード実行');
+            window.location.href = window.location.origin;
+          }, 1500);
+        }
       }
     } catch (error) {
       console.error('💥 予期しないエラー:', error);
