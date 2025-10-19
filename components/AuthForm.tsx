@@ -32,7 +32,9 @@ export default function AuthForm() {
         location.reload(); // ページをリロードしてログイン状態に
       }
     } else {
-      alert('登録成功！確認メールをチェックしてください。');
+      // サインアップ成功時もログイン状態にする
+      alert('登録成功！');
+      location.reload();
     }
 
     setLoading(false);

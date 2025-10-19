@@ -1,6 +1,7 @@
 'use client';
 
 import AuthForm from '@/components/AuthForm';
+import TodoForm from '@/components/TodoForm';
 import TodoList from '@/components/TodoList';
 import UserMenu from '@/components/UserMenu';
 import { useSupabaseUser } from '@/lib/useSupabaseUser';
@@ -13,6 +14,7 @@ export default function AuthGate() {
   return user ? (
     <>
       <UserMenu userEmail={user.email} />
+      <TodoForm />
       <TodoList />
     </>
   ) : (
