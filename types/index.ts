@@ -17,3 +17,15 @@ export interface TodoItemProps {
 export interface TodoListProps {
   // 必要に応じて追加
 }
+
+export interface AuthFormProps {
+  onSuccess?: () => void;
+}
+
+export interface UserMenuProps {
+  user: {
+    id: string;
+    email: string;
+    created_at: string;
+  };
+}
