@@ -3,17 +3,20 @@
 import { useEffect, useState } from 'react';
 import { fetchTodos } from '../lib/fetchTodos';
 import TodoForm from '../TodoForm';
+import TodoItem from '../TodoItem';
 
 export default function TodoAppPage() {
   const [todos, setTodos] = useState<any[]>([]);
 
+  // TODO一覧を取得する関数
+  const refreshTodos = async () => {
+    const data = await fetchTodos();
+    setTodos(data);
+  };
+
   // 初回マウント時に既存 TODO を取得
   useEffect(() => {
-    const load = async () => {
-      const data = await fetchTodos();
-      setTodos(data);
-    };
-    load();
+    refreshTodos();
   }, []);
 
   // TodoForm から呼ばれる
@@ -34,19 +37,11 @@ export default function TodoAppPage() {
           </div>
         ) : (
           todos.map((todo) => (
-            <div key={todo.id} className="p-3 bg-white border rounded-lg shadow-sm">
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={todo.is_complete}
-                  readOnly
-                  className="w-4 h-4 text-blue-600 rounded"
-                />
-                <span className={todo.is_complete ? 'line-through text-gray-500' : 'text-gray-800'}>
-                  {todo.title}
-                </span>
-              </div>
-            </div>
+            <TodoItem 
+              key={todo.id} 
+              todo={todo} 
+              onRefresh={refreshTodos}
+            />
           ))
         )}
       </div>
