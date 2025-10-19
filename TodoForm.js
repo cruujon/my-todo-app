@@ -20,9 +20,10 @@ export default function TodoForm() {
       const newTodo = await insertTodo(trimmed);
       
       if (newTodo) {
+        if (onAdd) {
+          onAdd(newTodo);  // 親コンポーネントの状態を更新
+        }
         setTitle('');    // フォームをクリア
-        // ページをリロードして最新のデータを表示
-        window.location.reload();
       } else {
         setError('TODOの追加に失敗しました');
       }
