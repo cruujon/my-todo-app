@@ -3,11 +3,7 @@
 import { useState } from 'react';
 import { insertTodo } from './lib/insertTodo';
 
-/**
- * props:
- *   onAdd: (todo) => void   // 親コンポーネントへ新規 todo を渡す
- */
-export default function TodoForm({ onAdd }) {
+export default function TodoForm() {
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,8 +20,9 @@ export default function TodoForm({ onAdd }) {
       const newTodo = await insertTodo(trimmed);
       
       if (newTodo) {
-        onAdd(newTodo);  // 親のリストに即時反映
         setTitle('');    // フォームをクリア
+        // ページをリロードして最新のデータを表示
+        window.location.reload();
       } else {
         setError('TODOの追加に失敗しました');
       }
